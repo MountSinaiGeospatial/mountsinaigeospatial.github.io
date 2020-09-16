@@ -24,3 +24,12 @@ DELETE_OUTPUT_DIRECTORY = True
 #GOOGLE_ANALYTICS = ""
 
 OUTPUT_PATH = 'docs'
+
+# control the sidebar-tags/links with a simple setting.
+# If the value
+# is 0, all links will be displayed
+# is negative, no links will be displayed
+# is positive, that many links will be displayed
+
+DISPLAY_TAGS_ON_SIDEBAR_LIMIT = 0
+DISPLAY_LINKS_ON_SIDEBAR_LIMIT = 0

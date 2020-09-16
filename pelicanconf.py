@@ -19,8 +19,7 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Icahn School of Medicine at Mount Sinai', 'https://icahn.mssm.edu/'),
-         ('Python.org', 'https://www.python.org/'),)
+LINKS = (('Mount Sinai School of Medicine', 'https://icahn.mssm.edu/'),)
 
 # Social widget
 SOCIAL = (('Mount Sinai Geospatial', 'https://github.com/MountSinaiGeospatial'),)

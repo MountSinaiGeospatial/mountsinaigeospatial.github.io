@@ -36,3 +36,5 @@ DEFAULT_PAGINATION = False
 # THEME = "pelican-themes/aboutwilson"
 
 OUTPUTDIR = 'docs'
+
+OUTPUT_PATH = 'docs'

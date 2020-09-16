@@ -1,1 +1,0 @@
-# mountsinaigeospatial.github.io

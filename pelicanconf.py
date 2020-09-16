@@ -19,22 +19,17 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Pelican', 'https://getpelican.com/'),
-         ('Python.org', 'https://www.python.org/'),
-         ('Jinja2', 'https://palletsprojects.com/p/jinja/'),
-         ('You can modify those links in your config file', '#'),)
+LINKS = (('Icahn School of Medicine at Mount Sinai', 'https://icahn.mssm.edu/'),
+         ('Python.org', 'https://www.python.org/'),)
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+SOCIAL = (('Mount Sinai Geospatial', 'https://github.com/MountSinaiGeospatial'),)
 
 DEFAULT_PAGINATION = False
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-# THEME = "pelican-themes/aboutwilson"
-
-OUTPUTDIR = 'docs'
+THEME = "themes/aboutwilson"
 
 OUTPUT_PATH = 'docs'

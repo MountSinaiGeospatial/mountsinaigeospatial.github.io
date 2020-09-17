@@ -3,7 +3,7 @@
 
 AUTHOR = 'Mount Sinai Geospatial'
 SITENAME = 'Mount Sinai Geospatial'
-SITEURL = '' # 'https://mountsinaigeospatial.github.io'
+SITEURL = 'https://mountsinaigeospatial.github.io'
 
 PATH = 'content'
 

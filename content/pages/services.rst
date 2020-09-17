@@ -5,4 +5,4 @@ Services
 
 
 
-Access the `Mount Sinai Geospatial Services Menu <http://localhost:8000/services_menu/index.html>`_ 
+Access the `Mount Sinai Geospatial Services Menu <https://mountsinaigeospatial.github.io//services_menu/index.html>`_ 

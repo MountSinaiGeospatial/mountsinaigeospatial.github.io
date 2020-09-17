@@ -3,7 +3,7 @@
 
 AUTHOR = 'Mount Sinai Geospatial'
 SITENAME = 'Mount Sinai Geospatial'
-SITEURL = ''
+SITEURL = '' # 'https://mountsinaigeospatial.github.io'
 
 PATH = 'content'
 
@@ -29,6 +29,10 @@ DEFAULT_PAGINATION = False
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-THEME = "themes/aboutwilson"
+THEME = "themes/blueidea"
 
 OUTPUT_PATH = 'docs'
+
+DISPLAY_SEARCH_FORM = True
+
+DISPLAY_CATEGORIES_ON_MENU = False

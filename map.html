@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact | Mount Sinai Emergency Medicine</title>
+<!-- Bootstrap v4 CSS -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600,600italic,700,700italic|Source+Code+Pro:500"/>
+
+    <link rel="stylesheet" href="site.css" />
+    <link rel="stylesheet" href="nav.css" />
+    
+</head>
+  <body>   
+    <!-- _header.html -->
+<header>
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-expand-md">
+        <a class="navbar-brand" href="/"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Mount_Sinai_Health_System_logo.svg" /></a>
+
+        <button class="navbar-toggler navbar-toggle" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <div class="navbar-toggler-icon">
+                <div class="nav-expand-line"></div>
+                <div class="nav-expand-line"></div>
+                <div class="nav-expand-line"></div>
+            </div>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="/services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="/data.html">Data</a></li>
+
+            </ul>
+        </div>
+        
+    </nav>
+   
+</header>
+
+    <div class="container">
+      
+
+<head>
+
+    <title>Quick Start - Leaflet</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+
+
+
+</head>
+<div class="row">
+    <div class="col-12 text-center">
+        <div id="mapid" style="width: 600px; height: 400px;"></div>
+  </div>
+</div>
+<script>
+
+    var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(mymap);
+
+    L.marker([51.5, -0.09]).addTo(mymap);
+
+    L.circle([51.508, -0.11], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 500
+    }).addTo(mymap);
+
+    L.polygon([
+        [51.509, -0.08],
+        [51.503, -0.06],
+        [51.51, -0.047]
+    ]).addTo(mymap);
+
+
+</script>
+
+
+
+
+    </div>
+
+    <!-- _footer.html -->
+<footer>
+
+  <div class="copyright">
+    <a href="https://icahn.mssm.edu/about/departments/emergency-medicine">
+      Mount Sinai | Department of Emergency Medicine</a><br>
+    <!-- <br>
+    Copyright &copy; <a href="https://training.talkpython.fm">Talk Python Training</a>. -->
+  </div>
+</footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

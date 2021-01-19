@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Change source | CARTO</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700|Open+Sans:300,400,600" rel="stylesheet">
+    <!-- Include Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" rel="stylesheet">
+    <!-- Include CARTO.js -->
+    <script src="https://libs.cartocdn.com/carto.js/v4.2.0/carto.min.js"></script>
+    <script src="create_maps.js"></script>
+    <link href="https://carto.com/developers/carto-js/examples/maps/public/style.css" rel="stylesheet">
+    <style>
+        aside.toolbox {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          min-width: 300px;
+          max-width: 240px;
+          z-index: 2;
+          overflow: scroll;
+        }
+      .box {
+          background: #FFFFFF;
+          z-index: 2;
+          border-radius: 4px;
+          padding: 16px;
+          margin: 0 0 24px;
+          height: 550px;
+          box-shadow: 0 0px 16px rgba(0, 0, 0, 0.24);
+          overflow: scroll;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <aside class="toolbox">
+      <div class="box">
+        <header>
+          <h1>COVID Staffing</h1>
+          
+        </header>
+        <section>
+<!--           <p class="description open-sans">Use radio button to select scenario.</p> -->
+          <div class="separator"></div>
+          
+
+          <div id="controls">
+            <p class="description open-sans">Unmet Critical Care Bed Demand after Reallocation</p>
+              <ul>
+                <li onclick="setBaseline_01()">
+                  <input type="radio" name="source" checked id="baseline_01">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_01()">
+                  <input type="radio" name="source" id="moderate_01">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_01()">
+                  <input type="radio" name="source" id="contingency_01">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_01()">
+                  <input type="radio" name="source" id="crisis_01">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <p class="description open-sans">Critical Care Nurse Demand after Reallocation</p>
+              <ul>
+                <li onclick="setBaseline_02()">
+                  <input type="radio" name="source" id="baseline_02">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_02()">
+                  <input type="radio" name="source" id="moderate_02">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_02()">
+                  <input type="radio" name="source" id="contingency_02">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_02()">
+                  <input type="radio" name="source" id="crisis_02">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Intensivist/ Physician Demand after Reallocation</h2>
+              <ul>
+                <li onclick="setBaseline_03()">
+                  <input type="radio" name="source" id="baseline_03">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_03()">
+                  <input type="radio" name="source" id="moderate_03">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_03()">
+                  <input type="radio" name="source" id="contingency_03">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_03()">
+                  <input type="radio" name="source" id="crisis_03">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Critical Care Nurse Reallocation</h2>
+              <ul>
+                <li onclick="setBaseline_04()">
+                  <input type="radio" name="source" id="baseline_04">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_04()">
+                  <input type="radio" name="source" id="moderate_04">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_04()">
+                  <input type="radio" name="source" id="contingency_04">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_04()">
+                  <input type="radio" name="source" id="crisis_04">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Critical Care Nurse Slack After Optimization</h2>
+              <ul>
+                <li onclick="setBaseline_05()">
+                  <input type="radio" name="source" id="baseline_05">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_05()">
+                  <input type="radio" name="source" id="moderate_05">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_05()">
+                  <input type="radio" name="source" id="contingency_05">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_05()">
+                  <input type="radio" name="source" id="crisis_05">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Intensivists/Physicians Reallocation</h2>
+              <ul>
+                <li onclick="setBaseline_06()">
+                  <input type="radio" name="source" id="baseline_06">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_06()">
+                  <input type="radio" name="source" id="moderate_06">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_06()">
+                  <input type="radio" name="source" id="contingency_06">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_06()">
+                  <input type="radio" name="source" id="crisis_06">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Intensivist/Physician Slack After Optimization</h2>
+              <ul>
+                <li onclick="setBaseline_07()">
+                  <input type="radio" name="source" id="baseline_07">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_07()">
+                  <input type="radio" name="source" id="moderate_07">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_07()">
+                  <input type="radio" name="source" id="contingency_07">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_07()">
+                  <input type="radio" name="source" id="crisis_07">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+          </div>
+
+        </section>
+        <footer class="js-footer"></footer>
+      </div>
+    </aside>
+
+    <script>
+      
+    </script>
+  </body>
+</html>
+

@@ -48,7 +48,7 @@ const layer = new carto.layer.Layer(source, style);
 client.addLayer(layer);
 client.getLeafletLayer().addTo(map);
 
-// configure and add category dataview
+configure and add category dataview
 const categoryDataview = new carto.dataview.Category(source, 'map_range', {
   limit: 10,
   operation: carto.operation.COUNT
@@ -56,9 +56,9 @@ const categoryDataview = new carto.dataview.Category(source, 'map_range', {
 
 client.addDataview(categoryDataview);
 
-// // add bbox filter
-// const bboxFilter = new carto.filter.BoundingBoxLeaflet(map);
-// categoryDataview.addFilter(bboxFilter);
+// add bbox filter
+const bboxFilter = new carto.filter.BoundingBoxLeaflet(map);
+categoryDataview.addFilter(bboxFilter);
 
 // add legend elements
 const legend = $("#legend-content");
@@ -67,7 +67,7 @@ layer.on('metadataChanged', renderCategoryLegend);
 
 function renderCategoryLegend(metadata){
   console.log(metadata);
-  legend.html('');
+  legend.html('test');
   metadata.styles.forEach(function (styleMetadata) {
     if (styleMetadata.getProperty() == 'polygon-fill') {
         let categories = styleMetadata.getCategories();
@@ -116,6 +116,7 @@ function setBaseline_01() {
       line-width: 0.1; 
     }
   `);
+  renderCategoryLegend();
 }
 function setModerate_01() {
   source.setQuery(

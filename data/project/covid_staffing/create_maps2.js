@@ -56,9 +56,9 @@ const categoryDataview = new carto.dataview.Category(source, 'map_range', {
 
 client.addDataview(categoryDataview);
 
-// // add bbox filter
-// const bboxFilter = new carto.filter.BoundingBoxLeaflet(map);
-// categoryDataview.addFilter(bboxFilter);
+// add bbox filter
+const bboxFilter = new carto.filter.BoundingBoxLeaflet(map);
+categoryDataview.addFilter(bboxFilter);
 
 // add legend elements
 const legend = $("#legend-content");
@@ -67,7 +67,7 @@ layer.on('metadataChanged', renderCategoryLegend);
 
 function renderCategoryLegend(metadata){
   console.log(metadata);
-  legend.html('');
+  // legend.html('');
   metadata.styles.forEach(function (styleMetadata) {
     if (styleMetadata.getProperty() == 'polygon-fill') {
         let categories = styleMetadata.getCategories();

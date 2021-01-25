@@ -67,14 +67,15 @@ layer.on('metadataChanged', renderCategoryLegend);
 
 function renderCategoryLegend(metadata){
   console.log(metadata);
-  // legend.html('');
+  legend.html('blah');
   metadata.styles.forEach(function (styleMetadata) {
     if (styleMetadata.getProperty() == 'polygon-fill') {
         let categories = styleMetadata.getCategories();
         console.log(categories)
         
         for (var category of categories){
-          legend.append(`<li><div class="circle" style="background:${category.value}"></div> ${category.name}</li>`)
+          legend.append(`<li><div class="circle" style="background:${category.value}"></div>
+            <p> ${category.name}</p></li>`)
       }
     }
   });

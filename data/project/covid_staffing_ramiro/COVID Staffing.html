@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://localhost:8000/covid_staffing_v2/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>COVID Staffing</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    
+    <!-- Include Leaflet -->
+    <script src="./COVID Staffing_files/leaflet.js"></script>
+    <link href="./COVID Staffing_files/leaflet.css" rel="stylesheet">
+    <!-- Include CARTO.js -->
+        <script src="./COVID Staffing_files/carto.min.js"></script>
+    <link href="./COVID Staffing_files/style.css" rel="stylesheet">
+    <!-- Include jQuery -->
+    <script src="./COVID Staffing_files/jquery.min.js"></script>
+
+    <link href="./COVID Staffing_files/css" rel="stylesheet">
+    <link href="./COVID Staffing_files/style(1).css" rel="stylesheet">
+    <style>
+      #legend {
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        height: 330px;
+        width: 300px;
+        padding: 10px 15px;
+        background: white;
+        box-shadow: 0 0 16px rgba(0, 0, 0, 0.12);
+        border-radius: 4px;
+        opacity: 0.7;
+        z-index: 1;
+        display: block;
+        list-style-type: none;
+        z-index: 99999;
+      }
+      #legend h1 {
+        font: 800 12px/16px 'Montserrat';
+        text-transform: uppercase;
+        color: #2D3C43;
+        margin-bottom: 12px;
+      }
+      #legend-content{
+        font: 800 12px/16px 'Open Sans'; 
+        margin-bottom: 6px;
+      }
+      #legend-content > li {
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        text-transform: uppercase;
+      }
+      #legend-content > li:last-child {
+        margin-bottom: 0;
+      }
+      .circle {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+    </style>
+  <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script><link id="shut-up-css" rel="stylesheet" href="data:text/css;base64,I3dhdGNoLWNvbW1lbnQtcGFuZWwsICNjbSwgI3dhdGNoLWNvbW1lbnRzLWNvcmUsICN3YXRjaC1kaXNjdXNzaW9uLCAjY29tbWVudHMtdGVzdC1pZnJhbWUsIHl0bS1jb21tZW50LXNlY3Rpb24tcmVuZGVyZXIsIGFbZGF0YS1kaXNxdXMtaWRlbnRpZmllcl0sIGlmcmFtZVtzcmMqPSJkaXNxdXMuY29tL2VtYmVkIl0sIGJvZHkgW2lkKj1kaXNxdXMgaV0sIGJvZHkgW2NsYXNzKj1kaXNxdXMgaV0sICNkc3EtY29udGVudCwgYm9keSBbaWQqPXNwb3RpbSBpXSwgYm9keSBbaWQqPXNwb3QtaW0gaV0sIGJvZHkgW2NsYXNzKj1zcG90aW0gaV0sIGJvZHkgW2NsYXNzKj1zcG90LWltIGldLCBkaXYjY29yYWxfdGFsa19zdHJlYW0sIGRpdiNjb3JhbF90aHJlYWQsIC5jb21tZW50czpub3QoY29kZSksIC5Db21tZW50czpub3QoY29kZSksICNjb21tZW50czpub3QoY29kZSksICNDb21tZW50czpub3QoY29kZSksICNjb21tZW50c19jb250YWluZXIsIC5ibG9jay10YWxrYmFja19zdG9yeSwgI3Byb2RSZXZpZXdzLCAucmV2Y29udGVudCwgLmNvbW1lbnRsaXN0LCAjY29tbWVudGxpc3RpbmcsICNzb2NpYWxjb21tZW50cywgI2NvbW1lbnR3cmFwcGVyLCAuY29tbWVudHdyYXBwZXIsIC5jb21tZW50YXJlYSwgI3N0b3J5LWNvbW1lbnRzLCAuY29tbWVudCwgI2NvbW1lbnRmb3JtLCBkaXYjcGx1Y2tjb21tZW50cywgZGl2I3BhZ2UgZGl2I2NvbnRlbnQgaDIjc2hvdXRib3gsIGRpdiNwYWdlIGRpdiNjb250ZW50IGRpdiNzaG91dGJveENvbnRhaW5lciwgZGl2I3Nob3V0Ym94IHNlY3Rpb24uc2hvdXRib3gsICNsYXRlc3QtY29tbWVudHMsIC5jb21tZW50SG9sZGVyLCAuY29tbWVudC1jb250YWluZXIsICNjb21tZW50LWNvbnRhaW5lciwgI2NvbW1lbnRfY29udGFpbmVyLCAjY29tbWVudGJsb2IsICNjbm5Db21tZW50cywgI0Jyb3dzZUNvbW1lbnRzLCAuZmEtY29tbWVudCwgLmNvbW1lbnQtY291bnQsICNzaG93Y29tbWVudHMsIC5jb21tZW50c19fYnRuLCAubXdwcGh1LWNvbW1lbnRzLCAudWdjY210LWNvbW1lbnRzLCAjZGlzY291cnNlLWNvbW1lbnRzLCAuYXJ0aWNsZUNvbW1lbnRzLCAucGx1Y2stY29tbSwgLnBhZ2UtY29tbWVudHMsICNnbWktQ0NvbW1lbnRNYXN0ZXIsIGRpdltkYXRhLWhvb2s9Y29tbWVudHNfdGhyZWFkXSwgLmNvbW1lbnRzLWNvbnRhaW5lciwgI21lZGlhX2NvbW1lbnRzLCAjaWRjLWNvbnRhaW5lci1wYXJlbnQsICNsaXZlZnlyZV9jb21tZW50X3N0cmVhbSwgI2xpdmVmeXJlLWJvZHksICNsaXZlZnlyZSwgLmZ5cmUsICNhcnRpY2xlQ29tbWVudHMsIC5qcy1Db21tZW50c0FyZWEsICNyZWFkZXJDb21tZW50cywgLnJlYWRlckNvbW1lbnRzLCAjY29tbWVudHNDb250YWluZXIsIC5jb21tZW50c0NvbnRhaW5lciwgLmNvbW1lbnRzTW9kdWxlLCBzcGFuLnBvc3RNZXRhSGVhZGVyQ29tbWVudENvdW50LmNvbW1lbnRDb3VudCwgYnV0dG9uLmNvbW1lbnRzLWJ1dHRvbiwgYS5jb21tZW50Q291bnRMaW5rLCBwLnRoZW1lLWNvbW1lbnRzLCAuY29tbWVudHMtYnV0dG9uLCAuZG5hLWNvbW1lbnQsIC5udy1jLWNvbW1lbnQsIC52aWV3LTYsIC5zcGFjZS1fNSwgLmFsbF9jb21tZW50cywgI2Rpc3BsYXlfY29tbWVudHMsIC5hcnRpY2xlLWNvbW1lbnRzLCAjY29tbWVudHNjb250YWluZXIsIC5lY2hvLXN0cmVhbS1jb250YWluZXIsICNmZWVkYmFjaywgI2xmX2NvbW1lbnRzLCAjbGZfdHdpdHRlcl9jb21tZW50cywgI2xmX2ZhY2Vib29rX2NvbW1lbnRzLCAjbGZfY29tbWVudF9zdHJlYW0sICNjb21tZW50TGlzdCwgI2luZmVybm8tY29tbWVudHMsIC5jYl9ibG9jaywgLkNNVF9Db21tZW50TGlzdCwgLmZiLWNvbW1lbnRzLCAuVUZJQ29tbWVudCwgZmJcOmNvbW1lbnRzLCBkaXZbZGF0YS10ZXN0aWRePVVGSTJDb21tZW50c0xpc3RdLCBbZGF0YS1wYWdlbGV0PSJwYWdlIl0gW2FyaWEtbGFiZWxePSJDb21tZW50Il0sIFtkYXRhLXBhZ2VsZXQ9InBhZ2UiXSBbYXJpYS1sYWJlbF49IlJlcGx5Il0sICNyZXNwb25zZXMsICNmYWNlYm9va19yZXNwb25zZXMsICNmYWNlYm9va19jb252ZXJzYXRpb25zLCAjZmJfY29tbWVudHNfd3JhcHBlciwgI2ZiX2NvbW1lbnRzX2NvbnRyb2wsIC5mYi1jb21tZW50cy1hcmVhLCAjcmVzcG9uZCwgI2JhZGdlX3ZvdGluZywgLnNwQ29tbWVudHNCb3hCb2R5LCAjc3BBcnRpY2xlRnVuY3Rpb25Gb3J1bSwgYm9keVtkYXRhLWd1ai16b25lfj0iZm9ydW0iXSAjcG9zdExpc3QsICNqcy1hcnRpY2xlLWNvbW1lbnRzLWJveC1mb3JtLCAuc3BJbnRlcmFjdGlvbk1hcmtzLCAuY2xlYXJmaXguYXJ0aWNsZS1jb21tZW50cy1ib3gubW9kdWxlLWJveCwgYVtocmVmKj0iZGV0YWlsX3RhYl9jb21tZW50cyJdLCAudmhiLWNvbW1lbnRzLWNvbnRhaW5lciwgLmhjZi1hcnRpY2xlLmhjZi1jb250ZW50LmhjZi1hcnRpY2xlLXR5cGUyLCAua29tbWVudGFyZV91ZWJlcnNpY2h0LCAjYm9keV9kbHQsICNjb21tZW50X2JveF9hcnRpY2xlLCAjdWdjLWNvbnRhaW5lciwgI2dzLXNvY2lhbC1jb21tZW50cywgLmdpZy1jb21tZW50cy1jb250YWluZXIsIC5BcnRpa2VsS29tbWVudGllcmVuLCAudHNyLUJhc2VfQ29udGVudE1ldGFJdGVtLXNvY2lhbC1mZWVkYmFjaywgI2xlc2VybWVpbnVuZ2VuLCAuY29tbWVudC1hdmF0YXItd3JhcCwgLmZiRmVlZGJhY2tDb250ZW50LCAucGx1Y2std3JhcCwgI21lZGlhLWNvbW1lbnRzLCAjZDItcm9vdCwgLnRoeW1lLWNvbW1lbnQtbGlzdCwgLmNvbW1lbnRzTGlzdCwgLmNvbW1lbnRzTGlzdF9faXRlbSAuY29tbWVudEl0ZW0sIC5jb21tZW50UG9wb3ZlciwgI3ZhbmlsbGEtY29tbWVudHMsIC5yZXBsaWVzLXdyYXBwZXIgPiAucmVwbGllcywgLnZpZXctY29tbWVudC1saXN0LCAuanNfcmVwbGllcywgLmpzX2NvbW1lbnRzLWlmcmFtZSwgI3RzbllvdXJDYWxsU3RvcnksIC5OQi1mZWVkLXN0b3J5LWNvbW1lbnRzLCAuYi1jb21tZW50c19wYWdlLCAuaGRuLWNvbW1lbnRzLCAjY21Db21tZW50cywgLnJ0Yi1hcHBzLWNvbW1lbnRzLWNvbnRhaW5lciwgLmNvbW11bml0eUNhbnZhcywgc2VjdGlvbiNzdG9yeS1jb21tdW5pdHkuc3RvcnktY29tbXVuaXR5LCAjY29tbWVudGJveCwgI25ld2NvbW1lbnRmb3JtLCAjUXVpY2tSZWdDb24sIC5pbnBhZ2Vjb21tZW50cywgLm1vZENvbi5tb2RDb25Db21tZW50cywgLmZ1bGwuY29tbXVuaXR5LnBhZ2UubGFzdC5ldmVuLCAjY29tbWVudHNSb290LCAuQ29tbWVudCwgI2NvbnZlcnNhdGlvbnMtaHVmZnBvc3Qtd2ViLW1haW4sIC5oY2YtZGV0YWlsLmhjZi1jb21tZW50cy1jb250YWluZXIsIHNlY3Rpb24jcHJvbW90ZWQtY29tbWVudHMsIGFzaWRlLmNvbW1lbnRzLWhvdG5lc3MsIGEuY29tbWVudC1jb3VudCwgZGl2LmNvbW1lbnRzLWJhciwgLnN1bW1hcnktY29tbWVudHMsIC5wb3N0LWNvbnRlbnQgLmFubm90YXRpb24tZm9vdG5vdGUtd3JhcHBlciwgLnBvc3QtY29udGVudCAuYW5ub3RhdGVCdXR0b24sIC5Db21tZW50c0xpc3QsIC5HYWxsZXJ5LUNvbW1lbnRzQ291bnRlciwgLnBvc3QtY29tbWVudHMtbW9kdWxlLCAjY29tbWVudHMtY291bnQsIC5jb21tZW50cy1ib2R5LWNvbnRhaW5lciwgLm0taGVyb19fY29tbWVudC1jb3VudCwgLmNvbW1lbnRfY291bnQsIC5tLWNvbW1lbnQtY291bnRfX2J1YmJsZSwgLm0tc3RyZWFtX19ub2RlLWxpc3RfX2NvbW1lbnRzLCBbZGF0YS11aT1jb21tZW50XSwgLmxpc3RlX3JlYWN0aW9ucywgI3JlYWdpciwgI2NvbnZlcnNhdGlvbnMtaHVmZnBvc3Qtd2ViLCAjY2l2aWwtY29tbWVudHMsIC5wb3N0LWNvbW1lbnQsIC5jb25mYWIsICNkeW5hbWljY29tbWVudHMsIC5jb21tZW50cy1ibG9jaywgLmpzLWNvbW1lbnRzLWJsb2NrLCAuY29tbWVudF9hcmVhLCAjY2JveF9tb2R1bGUsIC5jbXRfdmlldywgLnZpYWZvdXJhLCAucmVzcG9uc2VzV3JhcHBlciwgLnJlc3BvbnNlc1N0cmVhbVdyYXBwZXIsIGRpdiNyb290ID4gZGl2LmEuYi5jIGFydGljbGUgfiBkaXYgZGl2ICsgZGl2ICsgYnV0dG9uLCAjYm94Q29tZW50YXJpb3MsICNjb21lbnRhcmlvcywgI2FydGljbGUtY29tbWVudHMsIC5hYnJpbC1jb21lbnRhcmlvcy13aWRnZXQsIC5yZXBsaWVzX3dyYXAgPiBkaXY6Zmlyc3QtY2hpbGQsICNwdl9jb21tZW50cy53YWxsX21vZHVsZSwgI212X2NvbW1lbnRzLndhbGxfbW9kdWxlLCAucGxfdmlkZW9fY29tbWVudF9wb3N0X2FuZF9jb21tZW50cywgLnJlYWN0aWVzLCAjcmVhY3RpZXMsIC5jb21tZW50cy1saW5rLXdyYXBwZXIsIC5jb21tZW50c19hcnRpY2xlLCAjY29tbWVudHMtZnJhbWUsICNjb21tZW50aW5nLCAuaXMtY29tbWVudHMtd2lkZ2V0LCAjY29tbWVudHMtbGlzdCwgLnRlYXNlciAudGVhc2VyX2Zvb3RlciA+IGEsIGEuYnV0dG9uLmFubm90YXRpb24tY291bnQsICNyaWdodC1jb2x1bW4gLmNoYXQtcm9vbSwgLnJpZ2h0LWNvbHVtbiAuY2hhdC1yb29tX19jb250YWluZXIsIC5jaGFubmVsLXBhZ2VfX3JpZ2h0LWNvbHVtbiAuY2hhdF9fY29udGFpbmVyLCAuY2hhdC1wYW5lIC5jaGF0LXBhbmVfX2NoYXQtbGlzdCwgZGl2W2RhdGEtYS10YXJnZXQ9InJpZ2h0LWNvbHVtbi1jaGF0LWJhciJdLCAjd2F0Y2gtc2lkZWJhci1saXZlLWNoYXQsIHl0ZC1saXZlLWNoYXQtZnJhbWUsIC5qcy1jb21tZW50cy10aHJlYWQtY29udGFpbmVyLCBbZGF0YS10ZXN0LXRhZz0iY29tbWVudC1yb3ciXSwgW2RhdGEtdGFnPSJjb21tZW50LXJvdyJdLCB1bC5NcjUwOCwgYXJ0aWNsZS5fOFJtNEwgZGl2LnliWGs1LCBhcnRpY2xlLl84Um00TCBhLnI4WnJPLCBkaXYjcm9vdCA+IGRpdiNndG0tdmFyLXRoZW1lLWtpbmQgfiBkaXYgbWFpbiA+IHNlY3Rpb24gPiBkaXYgPiBkaXYgPiAJc2VjdGlvbltjbGFzc149InNjLSJdLCBkaXYjcm9vdCA+IGRpdltjbGFzc149InNjLSJdID4gZGl2W2NsYXNzXj0ic2MtIl0gPiBkaXY6bm90KFtjbGFzc10pIAlkaXZbY2xhc3NePSJzYy0iXSA+IGFydGljbGUgfiBkaXY6bm90KFtjbGFzc10pID4gZGl2W2NsYXNzXj0ic2MtIl0sICNZREMtTWFpbkNhbnZhcyAuY2FudmFzLXNoYXJlLWJ1dHRvbnMgPiBkaXY6bGFzdC1jaGlsZCwgLnNwcHJlX2NvbnZlcnNhdGlvbi12aWV3LCAuY29tbWVudHRocmVhZF9hcmVhLCAuY29udGVudENvbCAuZm9ydW0sIC50aHJlYWRlZF9jb21tZW50cywgLnRvcGNvbW1lbnQsIC5ib3R0b20tY29tbWVudHMsIC5jbXR3cmFwcGVyLCBpZnJhbWVbc3JjKj0iZmZ4LmlvL2FwaS9jb21tZW50cyJdLCAub3BpbmFyeS1pZnJhbWUsIC5vcGluYXJ5LXdpZGdldC13cmFwcGVyLCAuYXBlc3Rlci1maWxsLWNvbnRlbnQsIC5jb21tZW50LWJ1dHRvbiwgLm1lZGlhLWljb24tLWNvbW1lbnRzLCAuYS1hcnRpY2xlLW1ldGFfX2ljb24tLWNvbW1lbnRzLCAjY29tbWVudHNfY29udGFpbmVyLCAua29tbWVudGFyZV9sZXNlbl9saW5rLCAuZm9yZW5iZWl0cmFlZ2Vfc2hvdywgYVtuYW1lPSJtZWxkdW5nLm5ld3N0aWNrZXIuaGVhZGVyLmtvbW1lbnRhcmVsZXNlbiJdLCAua29tbWVudGFyZS1pbmZvLCBzcGFuW3RpdGxlKj0iI2NvbW1lbnRzIl0sIC5NdG5Db21tZW50U2Nyb2xsLCAjQ29udGVudFBsYWNlSG9sZGVyMV9GaWVsZHNldENvbW1lbnRFZGl0b3IsICNDb250ZW50UGxhY2VIb2xkZXIxX0J1dHRvbkNvbW1lbnRQdWJsaXNoLCAuc2hhcmVzIC5jb3VudCwgI21hY2xpZmUgI2NvbW1lbnRzLCBhW2hyZWYqPSIjcmVzcG9uZCJdLCBhW2hyZWYqPSIjY29tbWVudHMiXSwgLmFydGljbGVfX2NvbW1lbnRzLWxpbmssICNjb21tZW50cyArICN3ZWl0ZXJldGhlbWVuLCAuY29tbWVudC1zZWN0aW9uLCAubW9kQ29tbWVudHMsICNrb21tZW50YXJlLCAjaGNmLWNvbW1lbnQtd3JhcHBlci5oY2YtY29tbWVudHMsICNjb21tZW50SW5wdXQuaGNmLWNvbW1lbnRzLWlucHV0LCAuaGNmLWNvbW1lbnRzLCAucGRiLWFydGljbGUtY29tbWVudHMsIC5vLXRlYXNlcl9fY29tbWVudC1jb3VudCwgZGl2W2RhdGEtZXh0ZXJuYWwtY29tcG9uZW50PSJVc2VyLkFydGljbGUuTGlrZXMiXSwgI2FydGljbGUgI2NvbW1lbnRGb3JtLCAjdGFsa19jb21tdW5pdHksIC5hcnRpY2xlLWNvbnRlbnQgLmVuZ2FnZW1lbnQsIGFbaHJlZio9IiNrb21tZW50YXJlIl0sICNzaG93LWNvbW1lbnRzLWNvbnRhaW5lciwgLmFydGljbGUtY29tbWVudHMsIGJvZHlbbmctYXBwPSJwZGFpbHkiXSBhLmRpc2N1c3Npb25zLCAuZGlzY3Vzc2lvbl9ib2R5LCAudGFic19jb250YWluZXIgbGk6bGFzdC1jaGlsZCwgLmlkLUNvbW1lbnQsIC5wcS1jb21tZW50LWZvcm0td3JhcCwgLnJzcGVjLWNvbW1lbnRzLXRvdGFsLCAjaHlwZXJjb21tZW50c193aWRnZXQsICN2dXVrbGUtY29tbWVudHMsICNjb21tZW50c19jb250ZW50LCAjY29tbV9zaG93X21vcmUsIGFbbmFtZT0ia29tZW50YXJ6ZSJdLCAuY29tbWVudHNfX3Nwb3RpbSwgaWZyYW1lW3NyYyo9ImNvbW1lbnRzLmFwcCJdLCBpZnJhbWVbc3JjKj0iY29tbWVudHMuaWduLmNvbSJdLCBbY2xhc3NePW1haW5dIGRpdltjbGFzc149Y29udGVudF0gZGl2W2RhdGEtdGVzdF49dGhyZWFkXSwgI2NvbW1lbnRzVGl0bGUsICNjb21tZW50c1RpdGxlICsgdWwsICNjb21tZW50c1RpdGxlICsgdWwgKyBzcGFuLCAuYXJ0aWNsZV9fcmVhY3Rpb25zLCAjY29tbWVudHNCb3gsIGRpdi5qcy1yZXBsaWVzLXRvLnJlcGxpZXMtYWZ0ZXIgYXJ0aWNsZSArIGFydGljbGUsIGRpdi5qcy10d2VldC1yZXBsaWVzIGFydGljbGUsIGRpdi5qcy1jb252ZXJzYXRpb24tc2hvdy1tb3JlLmNvbnZlcnNhdGlvbi1tb3JlLCBkaXYucG9kLWJvZHkucmV2aWV3LCAucmV2aWV3cy1zZWN0aW9uLXdyYXAsIGRpdi5kZXRhaWwtY2hhcmFjdGVycy1saXN0IH4gZGl2LmJvcmRlckRhcmssICNMeENvbW1lbnRzLCAuY29tbWVudHNBcHAsIC5PcGluaW9ucywgLmNvbW1lbnQtc2VjdGlvbi1oZWFkLCAuY29tbWVudC1zZWN0aW9uLWhlYWQgfiAuZm9ydW0tY29tbWVudCwgI21ldHJvLWNvbW1lbnRzLWFyZWEsIC5kZWV0cy5wb3B1bGF0ZWQgPiAud3JpdGluZywgLnNwb3RsaWdodC11bml0IC5pdGVtLWRlc2MsIC5iYXJyZW1lbnUgfiBkaXYucm93IGRpdltpZF49ImNyaXRpcXVlIl0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jMF0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jMV0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jMl0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jM10sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jNF0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jNV0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jNl0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jN10sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jOF0sIC5jb250ZW50IGZvcm0gfiBhI2NpIH4gZGl2W2lkXj1jOV0sICNjZGl2LmdtLCBib2R5IFtpZCo9Y29tbWVudGFpcmVzIGldLCBib2R5IFtjbGFzcyo9Y29tbWVudGFpcmVzIGldLCAuY29tbWVudHMtbGlzdCwgI2Jsb2dDb21tZW50cywgI2NvbW1lbnRzX3BhbmUsICNjb21tZW50Y29udGFpbmVyLCAjY29tbWVudHNEaXYsICNjb21tZW50X2VudHJpZXMsICNjb21tZW50X2Zvcm0sICNjb21tZW50bGlzdCwgI2NvbW1lbnRzLXBhbmVsLCAjdXNlci1jb21tZW50cywgI3VzZXJfY29tbWVlbnRfc2VjdGlvbiwgLmNvbW1lbnRzX2FyZWEsIC5jb21tZW50cy1hcmVhLCAuZGlzY3Vzc2lvbkNvbnRhaW5lciwgLmNvbW1lbnRCb3hTdHlsZSwgLnBhZ2Vjb21tZW50LCAucGFnZWNvbW1lbnRoZWFkZXIsIC5jb21fdGV4dCwgLmNvbW1lbnR0eHQsIC5wb3N0LWNvbW1lbnRzLCAucG9zdC1jb21tZW50LWxpc3QsIC51c2VyX2NvbW1lbnQsIC53aWRnZXQtY29tbWVudHMsIC5jb21tZW50Qm94LCAuY29tbWVudFRleHQsIC5jb21tZW50cy13cmFwLCAjY29tbWVudHMtd3JhcHBlciwgI2NtdFdyYXBwZXIgeyAJZGlzcGxheTogbm9uZSAhaW1wb3J0YW50OyB9IGh0bWwuY29tbWVudHMsIGJvZHkuY29tbWVudHMsIGh0bWwuQ29tbWVudHMsIGJvZHkuQ29tbWVudHMsIGh0bWwjY29tbWVudHMsIGJvZHkjY29tbWVudHMsIGh0bWwjQ29tbWVudHMsIGJvZHkjQ29tbWVudHMsIGJvZHkucG9zdC10ZW1wbGF0ZS1kZWZhdWx0LmNhdGVnb3J5LWNvbW1lbnRhcnkgCT4gZGl2LmhlYWRlcjpmaXJzdC1jaGlsZCAJKyBkaXYuY29udGVudC5jb21tZW50cywgY29kZSBzcGFuLmNvbW1lbnQsIHByZSBzcGFuLmNvbW1lbnQsICNwYWdlaGlzdG9yeSAuY29tbWVudCwgdGFibGUuZGlmZiAuY29tbWVudCwgLm13LXN1bW1hcnktcHJldmlldyAuY29tbWVudCB7IAlkaXNwbGF5OiBpbml0aWFsICFpbXBvcnRhbnQ7IH0gLmdyb3VwLXBhZ2UgPiAuZ3JvdXAgPiBkaXZbZGF0YS10aHJlYWQtaWRdIC5jb21tZW50LCBib2R5ID4gZGl2I2RpbW1lcnMgKyAucXVvdGVfY29udGFpbmVyIC5jb21tZW50IHsgCWRpc3BsYXk6IHRhYmxlICFpbXBvcnRhbnQ7IH0gLnJlcG9zaXRvcnktY29udGVudCAuY29tbWVudCB7IAlkaXNwbGF5OiBibG9jayAhaW1wb3J0YW50OyB9"></head>
+  <body><div id="StayFocusd-infobar" style="display:none;">
+    <img src="chrome-extension://laankejkbhbdhmipfmgcngdelahlfoji/common/img/eye_19x19_red.png">
+    <span id="StayFocusd-infobar-msg"></span>
+    <span id="StayFocusd-infobar-links">
+        <a id="StayFocusd-infobar-never-show">hide forever</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a id="StayFocusd-infobar-hide">hide once</a>
+    </span>
+</div>
+
+    <div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0" style="outline: none;">
+   
+      
+      <div id="legend"><h1>LEGEND</h1><div id="legend-content"></div><li><div class="circle" style="background:#fff5f0"></div>0 - 0.1</li><li><div class="circle" style="background:#fedbcb"></div>0.1 - 0.5</li><li><div class="circle" style="background:#fcaf94"></div>0.5 - 1</li><li><div class="circle" style="background:#fc8161"></div>1 - 5</li><li><div class="circle" style="background:#f44f39"></div>5 - 10</li><li><div class="circle" style="background:#d52221"></div>10 - 20</li><li><div class="circle" style="background:#aa1016"></div>20 - 50</li><li><div class="circle" style="background:#67000d"></div>50 - 500</li></div>
+    <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, -24px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" role="presentation" src="./COVID Staffing_files/5.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, 647px, 0px); opacity: 1;"></div></div><div class="leaflet-layer " style="z-index: 1; opacity: 0.99;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 30; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" role="presentation" src="./COVID Staffing_files/5(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(7).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(7).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(7).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(8).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(9).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(8).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(9).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(268px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(7).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(524px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(8).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(9).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(8).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(12px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(9).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(780px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(10).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/5(11).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, 135px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(10).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/6(11).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, 391px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(10).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/4(11).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, -121px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(10).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-244px, 647px, 0px); opacity: 1;"><img alt="" role="presentation" src="./COVID Staffing_files/7(11).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1036px, 647px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-marker-pane"></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1024px, 1520.5px, 0px) scale(8);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="http://localhost:8000/covid_staffing_v2/#" title="Zoom in" role="button" aria-label="Zoom in">+</a><a class="leaflet-control-zoom-out" href="http://localhost:8000/covid_staffing_v2/#" title="Zoom out" role="button" aria-label="Zoom out">−</a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="http://leafletjs.com/" title="A JS library for interactive maps">Leaflet</a> | © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, © <a href="https://carto.com/attribution">CARTO</a></div></div></div></div>
+      <aside class="toolbox">
+      <div class="box">
+        <header>
+          <h1>COVID Staffing</h1>
+          
+        </header>
+        <section>
+<!--           <p class="description open-sans">Use radio button to select scenario.</p> -->
+          <div class="separator"></div>
+          <div id="controls">
+            <p class="description open-sans">Unmet Critical Care Bed Demand after Reallocation</p>
+              <ul>
+                <li onclick="setBaseline_01()">
+                  <input type="radio" name="source" checked="" id="baseline_01">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_01()">
+                  <input type="radio" name="source" id="moderate_01">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_01()">
+                  <input type="radio" name="source" id="contingency_01">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_01()">
+                  <input type="radio" name="source" id="crisis_01">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <p class="description open-sans">Critical Care Nurse Demand after Reallocation</p>
+              <ul>
+                <li onclick="setBaseline_02()">
+                  <input type="radio" name="source" id="baseline_02">
+                  <label for="baseline_02">Baseline</label>
+                </li>
+                <li onclick="setModerate_02()">
+                  <input type="radio" name="source" id="moderate_02">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_02()">
+                  <input type="radio" name="source" id="contingency_02">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_02()">
+                  <input type="radio" name="source" id="crisis_02">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Intensivist/ Physician Demand after Reallocation</h2>
+              <ul>
+                <li onclick="setBaseline_03()">
+                  <input type="radio" name="source" id="baseline_03">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_03()">
+                  <input type="radio" name="source" id="moderate_03">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_03()">
+                  <input type="radio" name="source" id="contingency_03">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_03()">
+                  <input type="radio" name="source" id="crisis_03">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Critical Care Nurse Reallocation</h2>
+              <ul>
+                <li onclick="setBaseline_04()">
+                  <input type="radio" name="source" id="baseline_04">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_04()">
+                  <input type="radio" name="source" id="moderate_04">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_04()">
+                  <input type="radio" name="source" id="contingency_04">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_04()">
+                  <input type="radio" name="source" id="crisis_04">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Critical Care Nurse Slack After Optimization</h2>
+              <ul>
+                <li onclick="setBaseline_05()">
+                  <input type="radio" name="source" id="baseline_05">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_05()">
+                  <input type="radio" name="source" id="moderate_05">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_05()">
+                  <input type="radio" name="source" id="contingency_05">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_05()">
+                  <input type="radio" name="source" id="crisis_05">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Intensivists/Physicians Reallocation</h2>
+              <ul>
+                <li onclick="setBaseline_06()">
+                  <input type="radio" name="source" id="baseline_06">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_06()">
+                  <input type="radio" name="source" id="moderate_06">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_06()">
+                  <input type="radio" name="source" id="contingency_06">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_06()">
+                  <input type="radio" name="source" id="crisis_06">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+            <h2 class="open-sans">Intensivist/Physician Slack After Optimization</h2>
+              <ul>
+                <li onclick="setBaseline_07()">
+                  <input type="radio" name="source" id="baseline_07">
+                  <label for="all">Baseline</label>
+                </li>
+                <li onclick="setModerate_07()">
+                  <input type="radio" name="source" id="moderate_07">
+                  <label for="europe">Moderate</label>
+                </li>
+                <li onclick="setContingency_07()">
+                  <input type="radio" name="source" id="contingency_07">
+                  <label for="spain">Contingency</label>
+                </li>
+                <li onclick="setCrisis_07()">
+                  <input type="radio" name="source" id="crisis_07">
+                  <label for="polygon">Crisis</label>
+                </li>
+              </ul>
+          </div>
+
+        </section>
+        <footer class="js-footer"></footer>
+      </div>
+      
+      
+    </aside>
+
+   <script src="./COVID Staffing_files/create_maps.js"></script>
+
+<!--     <script typ="text/javascript" src="script.js"></script> -->
+
+  
+
+</body></html>

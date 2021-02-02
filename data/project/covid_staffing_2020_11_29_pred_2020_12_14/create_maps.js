@@ -21,7 +21,7 @@ const source = new carto.source.SQL(`
     c.county_fips as c_geoid,
     c.mobile_unmet_cc_demand_label as label
 
-  FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+  FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
   LEFT JOIN cb_2018_us_county_500k AS t
   ON t.geoid = c.county_fips
   WHERE c.name = 'baseline'
@@ -96,7 +96,7 @@ function setBaseline_01() {
     c.county_fips as c_geoid,
     c.mobile_unmet_cc_demand_label as label
 
-  FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+  FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
   LEFT JOIN cb_2018_us_county_500k AS t
   ON t.geoid = c.county_fips
   WHERE c.name = 'baseline'
@@ -125,7 +125,7 @@ function setModerate_01() {
     c.county_fips as c_geoid,
     c.mobile_unmet_cc_demand_label as label
 
-  FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+  FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
   LEFT JOIN cb_2018_us_county_500k AS t
   ON t.geoid = c.county_fips
     WHERE c.name = 'moderate' 
@@ -154,7 +154,7 @@ function setContingency_01() {
     c.county_fips as c_geoid,
     c.mobile_unmet_cc_demand_label as label
 
-  FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+  FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
   LEFT JOIN cb_2018_us_county_500k AS t
   ON t.geoid = c.county_fips
     WHERE c.name = 'contingency'
@@ -183,7 +183,7 @@ function setCrisis_01() {
     c.county_fips as c_geoid,
     c.mobile_unmet_cc_demand_label as label
 
-  FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+  FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
   LEFT JOIN cb_2018_us_county_500k AS t
   ON t.geoid = c.county_fips
     WHERE c.name = 'crisis'
@@ -217,7 +217,7 @@ function setBaseline_02() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_nurse_need_label as label
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'baseline'
@@ -246,7 +246,7 @@ function setModerate_02() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_nurse_need_label as label
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'moderate'
@@ -275,7 +275,7 @@ function setContingency_02() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_nurse_need_label as label
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'contingency'
@@ -304,7 +304,7 @@ function setCrisis_02() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_nurse_need_label as label
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'crisis'
@@ -337,7 +337,7 @@ function setBaseline_03() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_physician_need_label as label 
    
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'baseline'
@@ -366,7 +366,7 @@ function setModerate_03() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_physician_need_label as label 
    
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'moderate'
@@ -395,7 +395,7 @@ function setContingency_03() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_physician_need_label as label 
    
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'contingency'
@@ -424,7 +424,7 @@ function setCrisis_03() {
       c.county_fips as c_geoid,
       c.mobile_add_cc_physician_need_label as label 
    
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'crisis'
@@ -458,7 +458,7 @@ function setBaseline_04() {
       c.county_fips as c_geoid,
       c.nurse_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'baseline' AND c.nurse_migration_label <> 'Static'
@@ -487,7 +487,7 @@ function setModerate_04() {
       c.county_fips as c_geoid,
       c.nurse_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'moderate' AND c.nurse_migration_label <> 'Static'
@@ -516,7 +516,7 @@ function setContingency_04() {
       c.county_fips as c_geoid,
       c.nurse_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'contingency' AND c.nurse_migration_label <> 'Static'
@@ -545,7 +545,7 @@ function setCrisis_04() {
       c.county_fips as c_geoid,
       c.nurse_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'crisis' AND c.nurse_migration_label <> 'Static'
@@ -579,7 +579,7 @@ function setBaseline_05() {
       c.county_fips as c_geoid,
       c.mobile_cc_nurse_slack_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'baseline' AND c.mobile_cc_nurse_slack_label <> 'Static'
@@ -608,7 +608,7 @@ function setModerate_05() {
       c.county_fips as c_geoid,
       c.mobile_cc_nurse_slack_label as label 
     
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'moderate' AND c.mobile_cc_nurse_slack_label <> 'Static'
@@ -637,7 +637,7 @@ function setContingency_05() {
       c.county_fips as c_geoid,
       c.mobile_cc_nurse_slack_label as label 
     
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'contingency' AND c.mobile_cc_nurse_slack_label <> 'Static'
@@ -666,7 +666,7 @@ function setCrisis_05() {
       c.county_fips as c_geoid,
       c.mobile_cc_nurse_slack_label as label 
     
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'crisis' AND c.mobile_cc_nurse_slack_label <> 'Static'
@@ -700,7 +700,7 @@ function setBaseline_06() {
       c.county_fips as c_geoid,
       c.physician_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'baseline' AND c.physician_migration_label <> 'Static'
@@ -729,7 +729,7 @@ function setModerate_06() {
       c.county_fips as c_geoid,
       c.physician_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'moderate' AND c.physician_migration_label <> 'Static'
@@ -758,7 +758,7 @@ function setContingency_06() {
       c.county_fips as c_geoid,
       c.physician_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'contingency' AND c.physician_migration_label <> 'Static'
@@ -787,7 +787,7 @@ function setCrisis_06() {
       c.county_fips as c_geoid,
       c.physician_migration_label as label 
 
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'crisis' AND c.physician_migration_label <> 'Static'
@@ -821,7 +821,7 @@ function setBaseline_07() {
       c.county_fips as c_geoid,
       c.mobile_cc_physician_slack_label as label 
     
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'baseline' AND c.mobile_cc_physician_slack_label <> 'Static'
@@ -850,7 +850,7 @@ function setModerate_07() {
       c.county_fips as c_geoid,
       c.mobile_cc_physician_slack_label as label 
     
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'moderate' AND c.mobile_cc_physician_slack_label <> 'Static'
@@ -879,7 +879,7 @@ function setContingency_07() {
       c.county_fips as c_geoid,
       c.mobile_cc_physician_slack_label as label 
     
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'contingency' AND c.mobile_cc_physician_slack_label <> 'Static'
@@ -908,7 +908,7 @@ function setCrisis_07() {
       c.county_fips as c_geoid,
       c.mobile_cc_physician_slack_label as label 
     
-    FROM covid_staffing_2021_01_17_pred_2021_02_01 AS c
+    FROM covid_staffing_2020_11_29_pred_2020_12_14 AS c
     LEFT JOIN cb_2018_us_county_500k AS t
     ON t.geoid = c.county_fips
     WHERE c.name = 'crisis' AND c.mobile_cc_physician_slack_label <> 'Static'

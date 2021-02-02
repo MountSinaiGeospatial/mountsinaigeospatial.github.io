@@ -1,0 +1,111 @@
+      <!DOCTYPE html>
+<html>
+  <head>
+    <title>Pop-ups with embed video | CARTO</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700|Open+Sans:300,400,600" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    <!-- Include Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" rel="stylesheet">
+    <!-- Include CARTO.js -->
+    <script src="https://libs.cartocdn.com/carto.js/v4.2.0/carto.min.js"></script>
+    <link href="https://carto.com/developers/carto-js/examples/maps/public/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="map"></div>
+    <aside class="toolbox">
+      <div class="box">
+        <header>
+          <h1>Pop-Ups with embed video</h1>
+          <button class="github-logo js-source-link"></button>
+        </header>
+        <section>
+          <p class="description open-sans">Create pop-up information windows with embed videos.</p>
+
+        </section>
+        <footer class="js-footer"></footer>
+      </div>
+    </aside>
+
+    <script>
+      const map = L.map('map').setView([42, -90], 4);
+      map.scrollWheelZoom.disable();
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+        maxZoom: 18
+      }).addTo(map);
+
+      const client = new carto.Client({
+        apiKey: 'default_public',
+        username: 'nygeog'
+      });
+
+      const cartoSource = new carto.source.SQL(`
+      SELECT 
+        c.cartodb_id as cartodb_id, 
+        t.the_geom as the_geom, 
+        t.the_geom_webmercator as the_geom_webmercator,
+        t.geoid as geoid,
+        t.name as name, 
+        c.geoid as c_geoid,
+        c.mobile_unmet_cc_demand_map_hex as hex,
+        c.mobile_unmet_cc_demand_map_bucket as map_bucket,
+        c.mobile_unmet_cc_demand as map_value,
+        c.mobile_unmet_cc_demand_range as map_range
+
+      FROM covid_staffing AS c
+      LEFT JOIN tl_2018_us_county AS t
+      ON t.geoid = c.geoid
+      WHERE c.name = 'baseline'
+      `);
+    
+      const cartoStyle = new carto.style.CartoCSS(`
+        #layer {
+          polygon-fill: #fff5f0;
+          polygon-opacity: .9;
+          line-color: #d3d3d3;
+          line-width: 0.1; 
+        }
+      `);
+      const cartoLayer = new carto.layer.Layer(cartoSource, cartoStyle, {
+            featureClickColumns: ['geoid', 'name']
+        });
+
+      client.addLayer(cartoLayer);
+      client.getLeafletLayer().addTo(map);
+
+      const popup = L.popup({ closeButton: false });
+
+      function openPopup(featureEvent) {
+        let content = '<div class="widget">';
+
+        if (featureEvent.data.geoid) {
+            content += `<p>${featureEvent.data.name} - ${featureEvent.data.geoid}</p>`
+        }
+
+        content += `</div>`;
+
+        popup.setContent(content);
+        popup.setLatLng(featureEvent.latLng);
+
+        if (!popup.isOpen()) {
+          popup.openOn(map);
+        }
+      }
+
+      function closePopUp(featureEvent) {
+            // remove popup from map object
+            popup.removeFrom(map)
+        }
+
+
+     cartoLayer.on('featureClicked', openPopup);
+
+
+    </script>
+  </body>
+</html>
+
+      
